@@ -4,7 +4,7 @@ import type { ZodTypeAny } from 'zod';
 import type { Component, HtmlHTMLAttributes, Ref } from 'vue';
 
 import type { VbenButtonProps } from '@vben-core/shadcn-ui';
-import type { ClassType, MaybeComputedRef, Nullable } from '@vben-core/typings';
+import type { ClassType, MaybeComputedRef } from '@vben-core/typings';
 
 import type { FormApi } from './form-api';
 
@@ -224,7 +224,12 @@ export type HandleResetFn = (
 export type FieldMappingTime = [
   string,
   [string, string],
-  ([string, string] | Nullable<string>)?,
+  (
+    | ((value: any, fieldName: string) => any)
+    | [string, string]
+    | null
+    | string
+  )?,
 ][];
 
 export interface FormSchema<
@@ -239,13 +244,13 @@ export interface FormSchema<
   /** 依赖 */
   dependencies?: FormItemDependencies;
   /** 描述 */
-  description?: string;
+  description?: CustomRenderType;
   /** 字段名 */
   fieldName: string;
   /** 帮助信息 */
-  help?: string;
+  help?: CustomRenderType;
   /** 表单项 */
-  label?: string;
+  label?: CustomRenderType;
   // 自定义组件内部渲染
   renderComponentContent?: RenderComponentContentType;
   /** 字段规则 */
